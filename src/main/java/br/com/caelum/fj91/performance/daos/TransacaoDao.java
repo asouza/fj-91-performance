@@ -1,9 +1,12 @@
 package br.com.caelum.fj91.performance.daos;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 import br.com.caelum.fj91.performance.models.Transacao;
 
-public interface TransacaoDao extends CrudRepository<Transacao, Long>{
+@Repository
+public interface TransacaoDao extends
+		PagingAndSortingRepository<Transacao, Long> {
 
 }
