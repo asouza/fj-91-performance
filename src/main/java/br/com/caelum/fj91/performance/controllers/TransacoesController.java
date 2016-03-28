@@ -1,6 +1,7 @@
 package br.com.caelum.fj91.performance.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,9 @@ public class TransacoesController {
 	
 	@RequestMapping(produces=MediaType.APPLICATION_JSON_VALUE,value="/transacoes/paginada")
 	@ResponseBody
+	@Cacheable(value="transacoes")
 	public Iterable<Transacao> lista(int pagina,int size){
+		System.out.println("chegou aqui..");
 		return transacaoDao.findAll(new PageRequest(pagina,size));
 	}
 	
