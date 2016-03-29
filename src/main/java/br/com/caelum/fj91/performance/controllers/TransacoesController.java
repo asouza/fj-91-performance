@@ -5,6 +5,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,7 @@ public class TransacoesController {
 	@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/transacoes/paginada")
 	@ResponseBody
 	@Cacheable(value = "transacoes")
+	@Async
 	public Iterable<Transacao> lista(int pagina, int size) {
 		System.out.println("chegou aqui..");
 		return transacaoDao.findAll(new PageRequest(pagina, size));
