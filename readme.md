@@ -6,11 +6,11 @@
 	 <li>
 	 	Enquanto ele está baixando, já importe os dados do banco de dados para seu mysql
 	 	<ul>
-	 		* Entre no mysql => ```mysql -u root```
-	 		* destrua o banco => ```drop database testehibernate;```
-	 		* crie o banco de novo => ```create database testehibernate```
-	 		* saia do console do mysql
-	 		* agora importe o banco => ```mysql -u root testehibernate < dump.sql```
+	 		<li> Entre no mysql => ```mysql -u root``` </li>
+	 		<li> destrua o banco => ```drop database testehibernate;```</li>
+	 		<li> crie o banco de novo => ```create database testehibernate;```</li>
+	 		<li> saia do console do mysql</li>
+	 		<li>agora importe o banco => ```mysql -u root testehibernate < dump.sql```</li>
 	 	</ul>
 	 </li>
 	</ul>
