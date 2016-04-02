@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.caelum.fj91.performance.daos.TransacaoDao;
 import br.com.caelum.fj91.performance.models.Transacao;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 @Controller
 public class TransacoesController {
 
@@ -32,10 +34,25 @@ public class TransacoesController {
 	}
 
 	@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/transacoes/paginada")
-	@Cacheable(value = "transacoes")
+//	@Cacheable(value = "transacoes")
 	@Async
+	@HystrixCommand(fallbackMethod = "listaEmMemoria")
 	public ResponseEntity<Iterable<Transacao>> lista(int pagina, int size) {
 		System.out.println("chegou aqui..");
+		if(pagina == 2){
+			throw new RuntimeException("zicou");
+		}
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("max-age", "864000");
+		ResponseEntity<Iterable<Transacao>> response = new ResponseEntity<Iterable<Transacao>>(
+				transacaoDao.findAll(new PageRequest(pagina, size)),
+				headers,
+				HttpStatus.OK);
+		
+		return response;
+	}
+	public ResponseEntity<Iterable<Transacao>> listaEmMemoria(int pagina, int size) {
+		System.out.println("fallback");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("max-age", "36000");
 		ResponseEntity<Iterable<Transacao>> response = new ResponseEntity<Iterable<Transacao>>(
@@ -44,7 +61,7 @@ public class TransacoesController {
 				HttpStatus.OK);
 		
 		return response;
-	}
+	}	
 
 	// aqui ta com get so para facilitar o teste pelo navegador
 	@RequestMapping(value = "/nova/transacao")
